@@ -5,7 +5,7 @@ window.addEventListener('load',(e)=>{
     let data = localStorage.getItem('taskList')
     
     let lst = JSON.parse(data)
-
+    
     ListCards(lst)
 })
 
