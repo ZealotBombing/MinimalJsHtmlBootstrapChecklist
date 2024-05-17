@@ -44,7 +44,7 @@ document.getElementById('btn_add').addEventListener('click', (e)=>{
 
     input.value =''
     modal.classList.remove('show')
-    // modal.style.display = 'none'
+    modal.style.display = 'none'
 
 })
 
@@ -68,9 +68,14 @@ document.getElementById('lst_row').addEventListener('click', (e)=>{
    }else if(btn_name === 'btn_ready'){
 
    }
-   localStorage.setItem('taskList',  JSON.stringify(lst))
+  
+   if(btn_name === 'btn_delete' || btn_name === 'btn_ready'){
 
-   ListCards(lst)
+    localStorage.setItem('taskList',  JSON.stringify(lst))
+
+    ListCards(lst)
+
+   }
 
 })
 
@@ -80,13 +85,17 @@ function ListCards(lst){
 
     lst.forEach(element => {
 
-        cards += `<div class="col-md-4 col-sm-6 mb-4">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">${element}</h5>
-                            <a href="#" data-item="${lst.indexOf(element)}" name="btn_delete" class="btn btn-danger">Delete</a>
-                            <a href="#" data-item="${lst.indexOf(element)}" name=""btn_ready class="btn btn-success">Ready</a>
-                        </div>
+        cards += `<div class="p-2 row rounded justify-content-between bg-primary-subtle mt-3 ml-2 mr-2">
+                    <div class="col-3">
+                        <p class="fs-5">${element}</p>
+                    </div>
+                    <div class="row col-4 justify-content-between">
+                        <a href="#" data-item="${lst.indexOf(element)}" name=""btn_ready class="col-5 btn btn-success">
+                            Ready
+                        </a>
+                        <a href="#" data-item="${lst.indexOf(element)}" name="btn_delete" class="col-5 btn btn-danger">
+                            Delete
+                        </a>
                     </div>
                 </div>`
 
