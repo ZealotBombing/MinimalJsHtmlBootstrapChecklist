@@ -121,25 +121,26 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="editModalLabel">Edit task</h1>
-        <button id="btn_close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button id="btn_close_edit" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form id="task_form">
+      <form id="edit_form">
+        <input type="hidden" name="id"/>
         <div class="modal-body">
           <label class="form-label">
             Title
           </label>
           <br/>
-          <input id="task_title" name="title" class="form-control" type="text" placeholder="Example: pay taxes"/>
+          <input name="title" class="form-control" type="text" placeholder="Example: pay taxes"/>
           <label class="mt-3">Date</label>
-          <input id="task_date" name="date" class="form-control" type="date">
+          <input name="date" class="form-control" type="date">
           <label class="mt-3">Description</label>
-          <textarea id="task_desc" name="description" class="form-control mt-3" maxlength="200">
+          <textarea name="description" class="form-control mt-3" maxlength="200">
   
           </textarea>
         </div>
         <div class="modal-footer">
-          <button id="btn_cancel" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button id="btn_add" type="submit" class="btn btn-primary">Add</button>
+          <button id="btn_cancel_edit" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="btn_add_edit" type="submit" class="btn btn-primary">Add</button>
         </div>
       </form>
     </div>

@@ -101,7 +101,7 @@ document.getElementById('container_lst').addEventListener('click', (e)=>{
             break
 
         case 'edit':
-            console.log('edit')
+            editTask(taskId)
             break
     }
     
@@ -231,3 +231,62 @@ function showDetails(taskId){
     document.getElementById('detail-update').innerText = updateCreateDate
     document.getElementById('detail-description').innerText = task.description
 }
+
+function editTask(taskId){
+
+    let data = localStorage.getItem('taskList')
+   
+    let taskList = JSON.parse(data)
+ 
+    let task = taskList.find(t => t.id === taskId)
+
+    let form = document.getElementById('edit_form')
+
+    form.id.value = task.id
+    form.title.value = task.title
+    form.date.value= task.plannedDate
+    form.description.value = task.description
+}
+
+document.getElementById('edit_form').addEventListener('submit', (e)=>{
+    
+    
+    e.preventDefault()
+
+    let form = e.target
+
+    let fields = form.querySelectorAll('input, textarea')
+
+    let formFill = true;
+
+    fields.forEach(field => {
+
+        if(field.value === null || field.value === '' || /^\s+$/.test(field.value) ){
+            formFill = false
+            field.style.borderColor = 'red'
+        }
+        else field.style.borderColor = ''
+    })
+
+    if(!formFill) return
+
+    let taskId = form.id.value
+
+    let data = localStorage.getItem('taskList')
+   
+    let taskList = JSON.parse(data)
+ 
+    let task = taskList.find(t => t.id === taskId)
+
+    task.title = form.title.value
+    task.plannedDate = form.date.value
+    task.description = form.description.value
+    task.updateDate = Date.now()
+
+    localStorage.setItem('taskList',  JSON.stringify(taskList))
+
+    ListCards(taskList)
+
+    document.getElementById('btn_close_edit').click()
+    alert("Save changes")
+})
