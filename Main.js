@@ -42,7 +42,8 @@ document.getElementById('task_form').addEventListener('submit', (e)=>{
         createDate: Date.now(),
         plannedDate: form.date.value,
         deleteDate: null,
-        actualDate: null
+        actualDate: null,
+        updateDate: Date.now()
     }
 
     if(!taskList){
@@ -96,7 +97,7 @@ document.getElementById('container_lst').addEventListener('click', (e)=>{
             break
 
         case 'detail':
-            console.log('detail')
+            showDetails(taskId)
             break
 
         case 'edit':
@@ -203,4 +204,30 @@ function deleteTask(id){
    localStorage.setItem('taskList', JSON.stringify(taskList))
 
    ListCards(taskList)
+}
+
+function showDetails(taskId){
+
+    let data = localStorage.getItem('taskList')
+   
+    let taskList = JSON.parse(data)
+ 
+    let task = taskList.find(t => t.id === taskId)
+
+    let createDate = new Date(task.createDate)
+    let formatedCreatedMonth= parseInt(createDate.getMonth()) < 10 ? `0${parseInt(createDate.getMonth())}` : parseInt(createDate.getMonth())
+    let detailCreateDate = `${formatedCreatedMonth}-${createDate.getDate()}-${createDate.getFullYear()}`
+    
+    let splitPlannedDate = task.plannedDate.split('-')
+    let detailPlannedDate = `${splitPlannedDate[1]}-${splitPlannedDate[2]}-${splitPlannedDate[0]}`
+
+    let updateDate = new Date(task.createDate)
+    let updateCreatedMonth= parseInt(updateDate.getMonth()) < 10 ? `0${parseInt(updateDate.getMonth())}` : parseInt(updateDate.getMonth())
+    let updateCreateDate = `${updateCreatedMonth}-${updateDate.getDate()}-${updateDate.getFullYear()}` 
+
+    document.getElementById('detail-title').innerText = task.title
+    document.getElementById('detail-create').innerText = detailCreateDate
+    document.getElementById('detail-planned').innerText = detailPlannedDate
+    document.getElementById('detail-update').innerText = updateCreateDate
+    document.getElementById('detail-description').innerText = task.description
 }
