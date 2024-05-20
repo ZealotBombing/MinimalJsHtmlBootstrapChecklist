@@ -7,6 +7,7 @@ window.addEventListener('load',(e)=>{
     
     let lst = JSON.parse(data)
 
+    
     ListCards(lst)
 })
 
@@ -43,7 +44,8 @@ document.getElementById('task_form').addEventListener('submit', (e)=>{
         plannedDate: form.date.value,
         deleteDate: null,
         actualDate: null,
-        updateDate: Date.now()
+        updateDate: Date.now(),
+        status: 0 //0:pendent, 1: ready
     }
 
     if(!taskList){
@@ -89,7 +91,7 @@ document.getElementById('container_lst').addEventListener('click', (e)=>{
     
     switch(action){
         case 'ready':
-            console.log('ready')
+            readyTask(taskId)
             break
 
         case 'delete':
@@ -108,7 +110,9 @@ document.getElementById('container_lst').addEventListener('click', (e)=>{
     e.stopPropagation();
 })
 
-function ListCards(lst){
+function ListCards(taskList){
+
+    let lst = taskList.filter(task => task.status === 0)
 
     let container = document.getElementById('container_lst')
 
@@ -157,7 +161,7 @@ function ListCards(lst){
 
             let tdBAction = document.createElement('td')
             tdBAction.innerHTML = `<div class="d-flex justify-content-end">
-                                    <a href="#" data-item-id="${element.id}" data-action="ready" name="btn_ready" class="col-3 btn text-success">
+                                    <a href="#" data-item-id="${element.id}" data-action="ready" name="btn_ready" data-bs-toggle="modal" data-bs-target="#readyModal" class="col-3 btn text-success">
                                         <i class="bi bi-check2-circle"></i>
                                     </a>
                                     <a href="#" data-item-id="${element.id}" data-action="delete" name="btn_delete" class="col-3 btn text-danger">
@@ -248,8 +252,20 @@ function editTask(taskId){
     form.description.value = task.description
 }
 
-document.getElementById('edit_form').addEventListener('submit', (e)=>{
+function readyTask(taskId){
+
+    let data = localStorage.getItem('taskList')
+   
+    let taskList = JSON.parse(data)
+ 
+    let task = taskList.find(t => t.id === taskId)
     
+    document.getElementById('ready-id').value = task.id
+    document.getElementById('ready-title').innerText = task.title
+    document.getElementById('ready-planned-date').innerText = `Planned date: ${task.plannedDate}`
+}
+
+document.getElementById('edit_form').addEventListener('submit', (e)=>{
     
     e.preventDefault()
 
@@ -289,4 +305,25 @@ document.getElementById('edit_form').addEventListener('submit', (e)=>{
 
     document.getElementById('btn_close_edit').click()
     alert("Save changes")
+})
+
+document.getElementById('ready_form').addEventListener('submit', (e)=>{
+    e.preventDefault()
+    
+    let taskId = e.target.id.value
+
+    let data = localStorage.getItem('taskList')
+   
+    let taskList = JSON.parse(data)
+ 
+    let task = taskList.find(t => t.id === taskId)
+
+    task.status = 1
+    task.actualDate = Date.now()
+
+    localStorage.setItem('taskList',  JSON.stringify(taskList))
+
+    ListCards(taskList)
+
+    document.getElementById('btn_close_ready').click()
 })

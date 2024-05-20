@@ -20,6 +20,9 @@
                 <button type="button" class="btn btn-primary col-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     New
                 </button>
+                <a id="ready-task" class="btn btn-success ms-3">
+                  <i class="bi bi-list-check"></i>
+                </a>
             </div>
             <div id="container_lst" class="container col col-6 text-bg-light">
                
@@ -141,6 +144,29 @@
         <div class="modal-footer">
           <button id="btn_cancel_edit" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           <button id="btn_add_edit" type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="readyModal" tabindex="-1" aria-labelledby="readyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="readyModalLabel">Ready task</h1>
+        <button id="btn_close_ready" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="ready_form">
+        <input id="ready-id" type="hidden" name="id"/>
+        <div class="modal-body">
+          <h1 id="ready-title" name="title"></h1>
+          <label id="ready-planned-date" name="plannedDate"></label>
+
+        </div>
+        <div class="modal-footer">
+          <button id="btn_cancel_ready" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button id="btn_add_ready" type="submit" class="btn btn-success">Confirm</button>
         </div>
       </form>
     </div>
