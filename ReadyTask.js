@@ -64,8 +64,8 @@ function ListCards(taskList){
                         <td>${actualFormatedDate}</td>
                         <td>
                             <div class="d-flex justify-content-center">
-                                <a href="#" data-item-id="BRYHEESPQZ" data-action="detail" name="btn_detail" data-bs-toggle="modal" data-bs-target="#descModal" class="col-3 btn text-primary">
-                                    <i class="bi bi-card-text"></i>
+                                <a href="#" data-item-id="${element.id}" data-action="detail" name="btn_detail" data-bs-toggle="modal" data-bs-target="#descModal" class="col-3 btn text-primary">
+                                    <i class="bi bi-card-text" data-action="detail" name="btn_detail"></i>
                                 </a>
                             </div>
                         </td>
@@ -75,3 +75,46 @@ function ListCards(taskList){
         table.append(tbody)
     }
 }
+
+document.getElementById('container_lst').addEventListener('click', (e)=>{
+    e.stopPropagation()
+
+    if(e.target.dataset.action === 'detail'){
+
+        let data = localStorage.getItem('taskList')
+    
+        let taskList = JSON.parse(data)
+
+        let taskId;
+        
+        if(e.target.tagName === 'I'){
+            taskId = e.target.parentElement.dataset.itemId
+        }else{
+            taskId = e.target.dataset.itemId
+        }
+
+        let task = taskList.find(t => t.id === taskId)
+
+        let createDate = new Date(task.createDate)
+        let formatedCreatedMonth= parseInt(createDate.getMonth()) < 10 ? `0${parseInt(createDate.getMonth())}` : parseInt(createDate.getMonth())
+        let detailCreateDate = `${formatedCreatedMonth}-${createDate.getDate()}-${createDate.getFullYear()}`
+        
+        let splitPlannedDate = task.plannedDate.split('-')
+        let detailPlannedDate = `${splitPlannedDate[1]}-${splitPlannedDate[2]}-${splitPlannedDate[0]}`
+
+        let updateDate = new Date(task.createDate)
+        let updateCreatedMonth= parseInt(updateDate.getMonth()) < 10 ? `0${parseInt(updateDate.getMonth())}` : parseInt(updateDate.getMonth())
+        let updateCreateDate = `${updateCreatedMonth}-${updateDate.getDate()}-${updateDate.getFullYear()}` 
+
+        let actualDate = new Date(task.createDate)
+        let actualCreatedMonth= parseInt(actualDate.getMonth()) < 10 ? `0${parseInt(actualDate.getMonth())}` : parseInt(actualDate.getMonth())
+        let actualFormatedDate = `${actualCreatedMonth}-${actualDate.getDate()}-${actualDate.getFullYear()}` 
+
+        document.getElementById('detail-title').innerText = task.title
+        document.getElementById('detail-create').innerText = detailCreateDate
+        document.getElementById('detail-planned').innerText = detailPlannedDate
+        document.getElementById('detail-update').innerText = updateCreateDate
+        document.getElementById('actual-date').innerHTML= actualFormatedDate
+        document.getElementById('detail-description').innerText = task.description
+    }
+})
