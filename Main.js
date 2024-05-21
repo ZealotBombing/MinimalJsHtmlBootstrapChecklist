@@ -7,7 +7,6 @@ window.addEventListener('load',(e)=>{
     
     let lst = JSON.parse(data)
 
-    
     ListCards(lst)
 })
 
@@ -148,39 +147,35 @@ function ListCards(taskList){
         table.append(thead)
 
         container.append(table)
-        
+        let trs = ''
+
         lst.forEach(element => {
 
-            let trBody = document.createElement('tr')
-
-            let tdBTitle = document.createElement('td')
-            tdBTitle.innerText = element.title
-
-            let tdBDate = document.createElement('td')
-            tdBDate.innerText = element.plannedDate
-
-            let tdBAction = document.createElement('td')
-            tdBAction.innerHTML = `<div class="d-flex justify-content-end">
-                                    <a href="#" data-item-id="${element.id}" data-action="ready" name="btn_ready" data-bs-toggle="modal" data-bs-target="#readyModal" class="col-3 btn text-success">
-                                        <i class="bi bi-check2-circle"></i>
-                                    </a>
-                                    <a href="#" data-item-id="${element.id}" data-action="delete" name="btn_delete" class="col-3 btn text-danger">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                    <a href="#" data-item-id="${element.id}" data-action="detail" name="btn_detail" data-bs-toggle="modal" data-bs-target="#descModal" class="col-3 btn text-primary">
-                                        <i class="bi bi-card-text"></i>
-                                    </a>
-                                    <a href="#" data-item-id="${element.id}" data-action="edit" name="btn_edit" data-bs-toggle="modal" data-bs-target="#editModal" class="col-3 btn text-secondary">
-                                        <i class="bi bi-pencil-fill"></i>
-                                    </a>
-                                </div> `
-    
-            trBody.append(tdBTitle, tdBDate, tdBAction)
-
-            tbody.append(trBody)
+            trs += `<tr>
+                        <td>${element.title}</td>
+                        <td>${element.plannedDate}</td>
+                        <td>
+                            <div class="d-flex justify-content-end">
+                                <a href="#" data-item-id="${element.id}" data-action="ready" name="btn_ready" data-bs-toggle="modal" data-bs-target="#readyModal" class="col-3 btn text-success">
+                                    <i class="bi bi-check2-circle"></i>
+                                </a>
+                                <a href="#" data-item-id="${element.id}" data-action="delete" name="btn_delete" class="col-3 btn text-danger">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                                <a href="#" data-item-id="${element.id}" data-action="detail" name="btn_detail" data-bs-toggle="modal" data-bs-target="#descModal" class="col-3 btn text-primary">
+                                    <i class="bi bi-card-text"></i>
+                                </a>
+                                <a href="#" data-item-id="${element.id}" data-action="edit" name="btn_edit" data-bs-toggle="modal" data-bs-target="#editModal" class="col-3 btn text-secondary">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                            </div> 
+                        </td>
+                    </tr>`
         });
 
+        tbody.innerHTML = trs
         table.append(tbody)
+        
     }
 }
 

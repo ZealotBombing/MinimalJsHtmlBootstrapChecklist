@@ -3,7 +3,6 @@ window.addEventListener('load',(e)=>{
     let data = localStorage.getItem('taskList')
     
     let lst = JSON.parse(data)
-
     
     ListCards(lst)
 })
@@ -50,41 +49,29 @@ function ListCards(taskList){
 
         container.append(table)
         
+        let trs = ''
+
         lst.forEach(element => {
 
-            let trBody = document.createElement('tr')
-
-            let tdBTitle = document.createElement('td')
-            tdBTitle.innerText = element.title
-
-            let tdBPlannedDate = document.createElement('td')
-            tdBPlannedDate.innerText = element.plannedDate
-
-
             let actualDate = new Date(element.actualDate)
-
-            console.log(element.actualDate)
-            console.log(actualDate)
 
             let actualMonth= parseInt(actualDate.getMonth()) < 10 ? `0${parseInt(actualDate.getMonth())}` : parseInt(actualDate.getMonth())
             let actualFormatedDate = `${actualMonth}-${actualDate.getDate()}-${actualDate.getFullYear()}` 
 
-            
-            let tdBActualDate = document.createElement('td')
-            tdBActualDate.innerText = actualFormatedDate 
-
-            let tdBAction = document.createElement('td')
-            tdBAction.innerHTML = `<div class="d-flex justify-content-center">
-                                        <a href="#" data-item-id="${element.id}" data-action="detail" name="btn_detail" data-bs-toggle="modal" data-bs-target="#descModal" class="col-3 btn text-primary">
-                                            <i class="bi bi-card-text"></i>
-                                        </a>
-                                    </div> `
-    
-            trBody.append(tdBTitle, tdBPlannedDate, tdBActualDate, tdBAction)
-
-            tbody.append(trBody)
+            trs += `<tr>
+                        <td>${element.title}</td>
+                        <td>${element.plannedDate}</td>
+                        <td>${actualFormatedDate}</td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <a href="#" data-item-id="BRYHEESPQZ" data-action="detail" name="btn_detail" data-bs-toggle="modal" data-bs-target="#descModal" class="col-3 btn text-primary">
+                                    <i class="bi bi-card-text"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>`
         });
-
+        tbody.innerHTML = trs
         table.append(tbody)
     }
 }
